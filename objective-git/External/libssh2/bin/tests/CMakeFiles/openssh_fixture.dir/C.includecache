@@ -1,0 +1,40 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/Users/soleilpqd/PROJECTS/GitDiff/objective-git/External/libssh2/tests/openssh_fixture.c
+openssh_fixture.h
+/Users/soleilpqd/PROJECTS/GitDiff/objective-git/External/libssh2/tests/openssh_fixture.h
+libssh2_config.h
+/Users/soleilpqd/PROJECTS/GitDiff/objective-git/External/libssh2/tests/libssh2_config.h
+winsock2.h
+-
+sys/socket.h
+-
+arpa/inet.h
+-
+netinet/in.h
+-
+unistd.h
+-
+ctype.h
+-
+stdio.h
+-
+stdlib.h
+-
+string.h
+-
+
+/Users/soleilpqd/PROJECTS/GitDiff/objective-git/External/libssh2/tests/openssh_fixture.h
+
+tests/libssh2_config.h
+stdio.h
+-
+stdarg.h
+-
+

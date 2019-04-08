@@ -1,0 +1,6 @@
+framework module Pods_GitDiff {
+  umbrella header "Pods-GitDiff-umbrella.h"
+
+  export *
+  module * { export * }
+}
