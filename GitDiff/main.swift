@@ -16,7 +16,7 @@ var filterPaths = [String]()
 var copyright = ""
 var author = NSFullUserName()
 let kCreatedDateFormat = "y/MM/dd HH:mm"
-let kVersion = "1.3"
+let kVersion = "1.4"
 var uncheckedFiles = [GTDiffDelta]()
 var isHideContext = false
 
@@ -80,13 +80,12 @@ private func filterFile(_ path: String) -> Bool {
 }
 
 private func printUsage() {
-    print("Usage: \((CommandLine.arguments.first as NSString?)?.lastPathComponent ?? "") <old local branch name> <new local branch name> [-x<excluded path> ...] [-X<excluded list input file>] [-f<filter path> ...] [-F<filter list input file>] [-e<file extension> ...] [-a<Author>] [-c<Copyright>] [-hctx] [outout file]")
+    print("Usage: \((CommandLine.arguments.first as NSString?)?.lastPathComponent ?? "") <old local branch name> <new local branch name> [-x<excluded path> ...] [-X<excluded list input file>] [-f<filter path> ...] [-F<filter list input file>] [-e<file extension> ...] [-a<Author>] [-c<Copyright>] [outout file]")
     print("\tWe don't check files in folder given in -x, -X and their subfolders.")
     print("\tWe ONLY check files in folder given in -f, -F and their subfolders.")
     print("\t-x, -f, -e may repeat.")
     print("\t-X, -F equivalent to -x, -f, but the paths are in the given file, each path on line.")
     print("\tWe check files having extension given in -e. If you don't give this option, default extensions is 'swift', 'h', 'm'. To check all files, give one -e (with empty extension).")
-    print("\t-hctx: hide context lines.")
 }
 
 if CommandLine.argc < 3 {
@@ -330,7 +329,6 @@ do {
                     print("Writting diff into \"\(output)\"...")
                     try? "".write(toFile: output, atomically: true, encoding: .utf8)
                     if let fileWriter = FileHandle(forWritingAtPath: output) {
-                        fileWriter.writeHTMLHead()
                         var totalSections = files.count
                         if movedFilesCount > 0 {
                             totalSections += 1
@@ -338,6 +336,7 @@ do {
                         if uncheckedFiles.count > 0 {
                             totalSections += 1
                         }
+                        fileWriter.writeHTMLHead(total: totalSections)
                         fileWriter.writeHTMLBodyHead(basePath: formatHTML(FileManager.default.currentDirectoryPath),
                                                      totalAdd: allAdd, totalRemove: allRm, totalMod: allMod, totalLowM: allLow,
                                                      totalGitAdd: allGitAdd, totalGitRemove: allGitRm,
@@ -379,7 +378,7 @@ do {
                                 let (old, new) = line.getMarkedDiff()
                                 fileWriter.writeDiffCodeLine(index: index, statusClass: color, statusContent: line.status.rawValue,
                                                              oldNum: line.oldNumber, oldClass: txtColor1, oldContent: old,
-                                                             newNum: line.newNumber, newClass: txtColor2, newContent: new)
+                                                             newNum: line.newNumber, newClass: txtColor2, newContent: new, isContext: line.isContext)
                             }
                             index += 1
                         }
@@ -393,7 +392,7 @@ do {
                                     let new = GDLineDiff.generateDiff(source: f.path, target: originF.path)
                                     fileWriter.writeDiffCodeLine(index: index, statusClass: .low, statusContent: "\(fileIndex)",
                                                                  oldNum: UInt(f.lines.count), oldClass: .low, oldContent: old,
-                                                                 newNum: UInt(f.lines.count), newClass: .low, newContent: new)
+                                                                 newNum: UInt(f.lines.count), newClass: .low, newContent: new, isContext: false)
                                     fileIndex += 1
                                 }
                             }
@@ -453,7 +452,7 @@ do {
                                 }
                                 fileWriter.writeDiffCodeLine(index: index, statusClass: color, statusContent: "\(fileIndex)",
                                                              oldNum: nil, oldClass: txtColor1, oldContent: text1,
-                                                             newNum: nil, newClass: txtColor2, newContent: text2)
+                                                             newNum: nil, newClass: txtColor2, newContent: text2, isContext: false)
                                 fileIndex += 1
                             }
                             index += 1

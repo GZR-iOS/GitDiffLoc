@@ -67,6 +67,7 @@
 /* Begin PBXFileReference section */
 		20C70177203587A33B771DD6 /* Pods_GitDiff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_GitDiff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2B212F9A2254BE08006B19AF /* FileExporter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FileExporter.swift; sourceTree = "<group>"; };
+		2B27FA2D225CB420002E2E21 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2B912FAE209B2EB900DBA4F2 /* Pods_GitDiff.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = Pods_GitDiff.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BC6EE00205273BB00332A0B /* GitDiff */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = GitDiff; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BC6EE03205273BB00332A0B /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
@@ -93,6 +94,7 @@
 		2BC6EDF7205273BB00332A0B = {
 			isa = PBXGroup;
 			children = (
+				2B27FA2D225CB420002E2E21 /* README.md */,
 				2BC6EE0A205273CE00332A0B /* ObjectiveGitFramework.xcodeproj */,
 				2BC6EE02205273BB00332A0B /* GitDiff */,
 				2BC6EE01205273BB00332A0B /* Products */,

@@ -55,7 +55,7 @@ Full description:
 In Terminal, move (`cd`) to your project root folder (where we can find `.git` folder).
 
 ```
-GitDiff <old local branch name> <new local branch name> [-x<excluded path> ...] [-X<excluded list input file>] [-f<filter path> ...] [-F<filter list input file>] [-e<file extension> ...] [-a<Author>] [-c<Copyright>] [-hctx] [outout file]
+GitDiff <old local branch name> <new local branch name> [-x<excluded path> ...] [-X<excluded list input file>] [-f<filter path> ...] [-F<filter list input file>] [-e<file extension> ...] [-a<Author>] [-c<Copyright>] [outout file]
 ```
 
 - `<>` is required.
@@ -68,7 +68,6 @@ GitDiff <old local branch name> <new local branch name> [-x<excluded path> ...] 
 - `-e`: file extension to check. If you don't specify, default it checks only `swift`, `h`, `m`. If you want check all files, specify single `-e` (without extension).
 - `-a`: author name of HTML output file. Default is your Mac OS X full name. Give single `-a` to ignore author name.
 - `-c`: organization name for HTML output file copyright.
-- `-hctx`: hide GIT context lines (show only Git edited lines).
 - Last argument is always the output file. If you does not specify, it prints out LOC count only.
 
 **Example**:
