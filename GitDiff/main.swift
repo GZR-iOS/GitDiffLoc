@@ -16,7 +16,7 @@ var filterPaths = [String]()
 var copyright = ""
 var author = NSFullUserName()
 let kCreatedDateFormat = "y/MM/dd HH:mm"
-let kVersion = "1.4"
+let kVersion = "1.5"
 var uncheckedFiles = [GTDiffDelta]()
 var isHideContext = false
 

@@ -68,6 +68,7 @@ extension FileHandle {
         a.control:active {color: white; text-shadow: 0px 0px white;}
         label:hover {color: white; text-shadow: 1px 1px black;}
         label:active {color: white; text-shadow: 0px 0px white;}
+        span.diff {background: yellow;}
     </style>
     <script>
         var totalSections = \(total);
@@ -79,8 +80,8 @@ extension FileHandle {
         function displaySection(section, visible) {
             var className = "filerow" + section;
             var items = document.getElementsByClassName(className);
-            for (var index = 0; index < items.length; index++) {
-                items[index].style.display = visible ? "" : "none";
+            for (item of items) {
+                item.style.display = visible ? "" : "none";
             }
             document.getElementById(className + "show").style.display = visible ? "none" : "";
             document.getElementById(className + "hide").style.display = visible ? "" : "none";
@@ -88,15 +89,15 @@ extension FileHandle {
             var ctxVisible = document.getElementById("context_visible").checked
             className = className + "ctx";
             items = document.getElementsByClassName(className);
-            for (var index = 0; index < items.length; index++) {
-                items[index].style.display = (visible && ctxVisible) ? "" : "none";
+            for (item of items) {
+                item.style.display = (visible && ctxVisible) ? "" : "none";
             }
             visibleStatuses[section] = visible;
         }
 
         function displayAll(visible) {
             for (var index = 0; index < totalSections; index++) {
-                displaySection(index, visible)
+                displaySection(index, visible);
             }
         }
 
@@ -108,9 +109,38 @@ extension FileHandle {
         function contextVisibleOnCheck() {
             for (var index = 0; index < totalSections; index++) {
                 if (visibleStatuses[index]) {
-                    displaySection(index, true)
+                    displaySection(index, true);
                 }
             }
+        }
+
+        function spaceVisibleOnCheck() {
+            var visible = document.getElementById("space_visibility").checked;
+            var items = document.getElementsByClassName("space_visible");
+            for (item of items) {
+                item.style.display = visible ? "" : "none";
+            }
+            items = document.getElementsByClassName("space_hidden");
+            for (item of items) {
+                item.style.display = visible ? "none" : "";
+            }
+        }
+
+        function differenceVisibleOnCheck() {
+            var visible = document.getElementById("difference_visibility").checked;
+            var items = document.getElementsByClassName("diff");
+            for (item of items) {
+                item.style.background = visible ? "yellow" : "none";
+            }
+        }
+
+        function copyFilePath(index) {
+            var txt = document.getElementById("filepath" + index).innerText;
+            txt = txt.substring(0, txt.length - 3);
+            var board = document.getElementById("clipboard");
+            board.value = txt;
+            board.select()
+            document.execCommand("copy");
         }
     </script>
 </head>
@@ -136,6 +166,8 @@ extension FileHandle {
         <a href="javascript:displayAll(true);" class="control">[Expand All]</a>
         <a href="javascript:displayAll(false);" class="control">[Collapse All]</a>
         <label><input type="checkbox" unchecked id="context_visible" onclick="contextVisibleOnCheck();"/> Context lines visible</label>
+        <label><input type="checkbox" checked id="space_visibility" onclick="spaceVisibleOnCheck();"/> Spaces visible</label>
+        <label><input type="checkbox" checked id="difference_visibility" onclick="differenceVisibleOnCheck();"/> Difference visible</label>
     </p>
 """
         write(data)
@@ -165,7 +197,7 @@ extension FileHandle {
         <td colspan=4>
             <table style="border-collapse: collapse;">
             <tr class="head">
-                <td><a href="javascript:openInNewTab('\(path)');">\(path)</a><br/></td>
+                <td id="filepath\(index)"><a href="javascript:openInNewTab('\(path)');">\(path)</a> <a href="javascript:copyFilePath(\(index));" class="control">📋</a></td>
                 <td class="num_head">LOC:</td>
                 <td class="add_num">+\(addN)</td>
                 <td class="rm_num">-\(rmN)</td>
@@ -180,6 +212,10 @@ extension FileHandle {
     </tr>
 """
         write(data)
+    }
+
+    private func makeHTMLContentTrueSpace(_ input: String) -> String {
+        return input.replacingOccurrences(of: "·", with: "&ensp;")
     }
 
     func writeDiffCodeLine(index: Int, statusClass: HtmlStatusClass, statusContent: String,
@@ -197,14 +233,15 @@ extension FileHandle {
         } else {
             newN = ""
         }
-
+        let oldContentSp = makeHTMLContentTrueSpace(oldContent)
+        let newContentSp = makeHTMLContentTrueSpace(newContent)
         let data = """
     <tr style="display:none;" class="filerow\(index)\(isContext ? "ctx" : "")">
         <td class="\(statusClass.rawValue + (isContext ? "_ctx" : ""))">\(statusContent)</td>
         <td class="no">\(oldN)</td>
-        <td class="\(oldClass.rawValue + (isContext ? "_ctx" : ""))">\(oldContent)</td>
+        <td class="\(oldClass.rawValue + (isContext ? "_ctx" : ""))"><span class=\"space_visible\">\(oldContent)</span><span class=\"space_hidden\" style=\"display:none;\">\(oldContentSp)</span></td>
         <td class="no">\(newN)</td>
-        <td class="\(newClass.rawValue + (isContext ? "_ctx" : ""))">\(newContent)</td>
+        <td class="\(newClass.rawValue + (isContext ? "_ctx" : ""))"><span class=\"space_visible\">\(newContent)</span><span class=\"space_hidden\" style=\"display:none;\">\(newContentSp)</span></td>
     </tr>
 """
         write(data)
@@ -311,6 +348,7 @@ extension FileHandle {
         if copyright.count > 0 {
             write("    <p style=\"text-align:center;\">Copyright © \(formatDate(format: "y")) \(copyright). All rights reserved.</p>")
         }
+        write("<input type=\"text\" id=\"clipboard\" style=\"opacity:0;\"/>")
         write("</body>")
         write("</html>")
     }

@@ -99,7 +99,7 @@ class GDLineDiff {
             } else if range.lower != 0 {
                 result += formatCode(String(source[source.startIndex..<source.index(source.startIndex, offsetBy: range.lower)]))
             }
-            result += (useMarker ? kDiffBegin : "<b>") + formatCode(String(source[source.index(source.startIndex, offsetBy: range.lower)...source.index(source.startIndex, offsetBy: range.higher)])) + (useMarker ? kDiffEnd : "</b>")
+            result += (useMarker ? kDiffBegin : "<span class=\"diff\">") + formatCode(String(source[source.index(source.startIndex, offsetBy: range.lower)...source.index(source.startIndex, offsetBy: range.higher)])) + (useMarker ? kDiffEnd : "</span>")
             lastRange = range
         }
         if let last = ranges.last, last.higher < source.count - 1 {
@@ -109,8 +109,8 @@ class GDLineDiff {
     }
 
     static func unmarkDiff(_ input: String) -> String {
-        var result = input.replacingOccurrences(of: kDiffBegin, with: "<b>")
-        result = result.replacingOccurrences(of: kDiffEnd, with: "</b>")
+        var result = input.replacingOccurrences(of: kDiffBegin, with: "<span class=\"diff\">")
+        result = result.replacingOccurrences(of: kDiffEnd, with: "</span>")
         return result
     }
 
