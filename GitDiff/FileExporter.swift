@@ -36,43 +36,155 @@ extension FileHandle {
 <head>
     <meta charset="UTF-8"/>
     <style>
-        table {width:100%; background-color: white; table-layout: fixed; word-wrap: break-word;}
-        tr:nth-child(odd) {background: #e6e6e6;}
-        tr.head {background: #ffe0b3; height: 40px;}
-        tr.head_low {background: #cccccc; height: 40px;}
-        th:nth-child(odd) {background: #cccccc;}
-        th:nth-child(even) {background: #b3b3b3;}
-        td.no {text-align:right;}
-        td.add_status {background: green; text-align: center; color: white;}
-        td.rm_status {background: red; text-align: center; color: white;}
-        td.mod_status {background: blue; text-align: center; color: white;}
-        td.ch_status {background: gray; text-align: center; color: white;}
-        td.ch_status_ctx {background: #afafaf; text-align: center; color: white;}
-        td.add_txt {color: green;}
-        td.rm_txt {color: red;}
-        td.mod_txt {color: blue;}
-        td.ch_txt {color: gray;}
-        td.ch_txt_ctx {color: #afafaf;}
-        td.git_add {color: green; border: 1px solid green; width: 45px; text-align: center; background: none;}
-        td.git_mod {color: blue; border: 1px solid blue; width: 45px; text-align: center; background: none;}
-        td.git_rm {color: red; border: 1px solid red; width: 45px; text-align: center; background: none;}
-        td.add_num {color: white; width: 45px; text-align: center; background: green;}
-        td.rm_num {color: white; width: 45px; text-align: center; background: red;}
-        td.mod_num {color: white; width: 45px; text-align: center; background: blue;}
-        td.low_num {color: white; width: 45px; text-align: center; background: gray;}
-        td.num_head {color: black; width: 45px; text-align: center; background: #ffe0b3;}
-        a.control {text-decoration: none;}
-        a.control:link {color: black;}
-        a.control:visited {color: black;}
-        a.control:hover {color: white; text-shadow: 1px 1px black;}
-        a.control:active {color: white; text-shadow: 0px 0px white;}
-        label:hover {color: white; text-shadow: 1px 1px black;}
-        label:active {color: white; text-shadow: 0px 0px white;}
-        span.diff {background: yellow;}
+        table {
+            width: 100%;
+            background-color: white;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+        tr:nth-child(odd) {
+            background: #e6e6e6;
+        }
+        tr.head {
+            background: #ffe0b3;
+            height: 40px;
+        }
+        tr.head_low {
+            background: #cccccc;
+            height: 40px;
+        }
+        th:nth-child(odd) {
+            background: #cccccc;
+        }
+        th:nth-child(even) {
+            background: #b3b3b3;
+        }
+        td.no {
+            text-align:right;
+        }
+        td.add_status {
+            background: green;
+            text-align: center;
+            color: white;
+        }
+        td.rm_status {
+            background: red;
+            text-align: center;
+            color: white;
+        }
+        td.mod_status {
+            background: blue;
+            text-align: center;
+            color: white;
+        }
+        td.ch_status {
+            background: gray;
+            text-align: center;
+            color: white;
+        }
+        td.ch_status_ctx {
+            background: #afafaf;
+            text-align: center;
+            color: white;
+        }
+        td.add_txt {
+            color: green;
+        }
+        td.rm_txt {
+            color: red;
+        }
+        td.mod_txt {
+            color: blue;
+        }
+        td.ch_txt {
+            color: gray;
+        }
+        td.ch_txt_ctx {
+            color: #afafaf;
+        }
+        td.git_add {
+            color: green;
+            border: 1px solid green;
+            width: 45px;
+            text-align: center;
+            background: none;
+        }
+        td.git_mod {
+            color: blue;
+            border: 1px solid blue;
+            width: 45px;
+            text-align: center;
+            background: none;
+        }
+        td.git_rm {
+            color: red;
+            border: 1px solid red;
+            width: 45px;
+            text-align: center;
+            background: none;
+        }
+        td.add_num {
+            color: white;
+            width: 45px;
+            text-align: center;
+            background: green;
+        }
+        td.rm_num {
+            color: white;
+            width: 45px;
+            text-align: center;
+            background: red;
+        }
+        td.mod_num {
+            color: white;
+            width: 45px;
+            text-align: center;
+            background: blue;
+        }
+        td.low_num {
+            color: white;
+            width: 45px;
+            text-align: center;
+            background: gray;
+        }
+        td.num_head {
+            color: black;
+            width: 45px;
+            text-align: center;
+            background: #ffe0b3;
+        }
+        a.control {
+            text-decoration: none;
+        }
+        a.control:link {
+            color: black;
+        }
+        a.control:visited {
+            color: black;
+        }
+        a.control:hover {
+            color: white;
+            text-shadow: 1px 1px black;
+        }
+        a.control:active {
+            color: white;
+            text-shadow: 0px 0px white;
+        }
+        label:hover {
+            color: white;
+            text-shadow: 1px 1px black;
+        }
+        label:active {
+            color: white;
+            text-shadow: 0px 0px white;
+        }
+        span.diff {
+            background: yellow;
+        }
     </style>
     <script>
         var totalSections = \(total);
-        var visibleStatuses = new Array(totalSections)
+        var visibleStatuses = new Array(totalSections);
         for (var index = 0; index < totalSections; index++) {
             visibleStatuses[index] = false;
         }
@@ -86,7 +198,7 @@ extension FileHandle {
             document.getElementById(className + "show").style.display = visible ? "none" : "";
             document.getElementById(className + "hide").style.display = visible ? "" : "none";
 
-            var ctxVisible = document.getElementById("context_visible").checked
+            var ctxVisible = document.getElementById("context_visible").checked;
             className = className + "ctx";
             items = document.getElementsByClassName(className);
             for (item of items) {
@@ -139,7 +251,7 @@ extension FileHandle {
             txt = txt.substring(0, txt.length - 3);
             var board = document.getElementById("clipboard");
             board.value = txt;
-            board.select()
+            board.select();
             document.execCommand("copy");
         }
     </script>
