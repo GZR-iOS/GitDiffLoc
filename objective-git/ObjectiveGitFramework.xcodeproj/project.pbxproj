@@ -1294,7 +1294,7 @@
 			attributes = {
 				LastSwiftUpdateCheck = 0700;
 				LastTestingUpgradeCheck = 0510;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "GitHub, Inc";
 				TargetAttributes = {
 					88F05A6A16011E5400B7AD1D = {
@@ -1409,7 +1409,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=\"/Applications/CMake.app/Contents/bin:$PATH\"\nscript/update_libgit2\n";
+			shellScript = "export PATH=\"/Applications/CMake.app/Contents/bin:/usr/local/bin:$PATH\"\nscript/update_libgit2\n";
 		};
 		D0A330F616027F3B00A616FA /* libgit2-iOS */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1708,10 +1708,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					External/libssh2/bin/src/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					"-lssh2",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1737,10 +1737,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					External/libssh2/bin/src/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					"-lssh2",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -1976,10 +1976,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					External/libssh2/bin/src/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					"-lssh2",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;
@@ -2011,7 +2011,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2075,7 +2075,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2107,7 +2107,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2139,7 +2139,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D019778C19F830D100F523DA /* iOS-Framework.xcconfig */;
 			buildSettings = {
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				CURRENT_PROJECT_VERSION = 1;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -2223,10 +2223,10 @@
 					"-lgit2",
 					"-force_load",
 					External/libgit2.a,
-					External/libssh2/bin/src/libssh2.a,
 					"-lcrypto",
 					"-lssl",
 					"-lcurl",
+					"-lssh2",
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.libgit2.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ObjectiveGit;

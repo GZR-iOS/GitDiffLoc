@@ -36,7 +36,7 @@ In this repository, I added everythings (including the above library source code
 If you get problems while building `objective-git `, please check its own README. My notes:
 
 - Install `cmake` [cmake.org](https://cmake.org/download/), default into `/Applications`. Use this tool to build **libgit2** (subproject **ObjectiveGitFramework**, target **libgit2**, section **Build Phases**).
-- Install library `libssh2` if needed: I used [MacPorts](https://www.macports.org) => then check these paths: `/opt/local/lib/libcrypto.a`, `/opt/local/lib/libssl.a`, `/opt/local/lib/libiconv.a`. If your paths are different:
+- Install library `libssh2` if needed: I used [MacPorts](https://www.macports.org) => then check these paths: `/opt/local/lib/libcrypto.a`, `/opt/local/lib/libssl.a`, `/opt/local/lib/libiconv.a`, `/opt/local/lib/libssh2.a`. If your paths are different:
   - Re-make link file `objective-git/External/libcrypto.a` và `objective-git/External/libssl.a` to the right paths.
   - In subproject **ObjectiveGitFramework**, target **ObjectiveGit-Mac**, section **Link Binary with libraries**, remove & add again `libiconv`.
 

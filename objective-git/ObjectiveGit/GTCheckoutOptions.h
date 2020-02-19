@@ -15,7 +15,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 /// Checkout strategies used by the various -checkout... methods
 /// See git_checkout_strategy_t
-typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
+typedef NS_OPTIONS(unsigned int, GTCheckoutStrategyType) {
 	GTCheckoutStrategyNone = GIT_CHECKOUT_NONE,
 	GTCheckoutStrategySafe = GIT_CHECKOUT_SAFE,
 	GTCheckoutStrategyForce = GIT_CHECKOUT_FORCE,
@@ -40,7 +40,7 @@ typedef NS_OPTIONS(NSInteger, GTCheckoutStrategyType) {
 
 /// Checkout notification flags used by the various -checkout... methods
 /// See git_checkout_notify_t
-typedef NS_OPTIONS(NSInteger, GTCheckoutNotifyFlags) {
+typedef NS_OPTIONS(unsigned int, GTCheckoutNotifyFlags) {
 	GTCheckoutNotifyNone = GIT_CHECKOUT_NOTIFY_NONE,
 	GTCheckoutNotifyConflict = GIT_CHECKOUT_NOTIFY_CONFLICT,
 	GTCheckoutNotifyDirty = GIT_CHECKOUT_NOTIFY_DIRTY,

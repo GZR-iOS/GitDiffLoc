@@ -12,7 +12,7 @@
 
 /// Flags for -stashChangesWithMessage:flags:error:.
 /// Those can be ORed together. See git_stash_flags for additional information.
-typedef NS_OPTIONS(NSInteger, GTRepositoryStashFlag) {
+typedef NS_OPTIONS(unsigned int, GTRepositoryStashFlag) {
 	GTRepositoryStashFlagDefault = GIT_STASH_DEFAULT,
 	GTRepositoryStashFlagKeepIndex = GIT_STASH_KEEP_INDEX,
 	GTRepositoryStashFlagIncludeUntracked = GIT_STASH_INCLUDE_UNTRACKED,

@@ -16,9 +16,8 @@ var filterPaths = [String]()
 var copyright = ""
 var author = NSFullUserName()
 let kCreatedDateFormat = "y/MM/dd HH:mm"
-let kVersion = "1.5"
+let kVersion = "1.5.1"
 var uncheckedFiles = [GTDiffDelta]()
-var isHideContext = false
 
 print("Git Diff LOC Count by DươngPQ v\(kVersion)")
 print("Copyright © 2019 GMO-Z.com RunSystem. All rights reserved.")
@@ -142,8 +141,6 @@ for i in 3 ..< CommandLine.argc {
         } else {
             copyright = ""
         }
-    } else if param == "-hctx" {
-        isHideContext = true
     } else {
         outFile = param
     }
@@ -160,12 +157,16 @@ do {
         let localBranches = try repo.localBranches()
         var oTree: GTTree?
         var nTree: GTTree?
+        var oldCommit: GTCommit?
+        var newCommit: GTCommit?
         for branch in localBranches {
             if let name = branch.name, let target = branch.reference.resolvedTarget as? GTCommit {
                 if name == oldBranch {
                     oTree = target.tree
+                    oldCommit = target
                 } else if name == newBranch {
                     nTree = target.tree
+                    newCommit = target
                 }
             }
         }
@@ -308,16 +309,30 @@ do {
                 }
 
                 // Summary
-                print("Total deltas: \(diff.deltaCount). Checked files: \(files.count).")
-                print("Added: \(allAdd).")
-                print("Removed: \(allRm).")
-                print("Modified: \(allMod).")
-                print("Low meaning: \(allLow).")
+                func printCommitSummary(_ commit: GTCommit?) {
+                    guard let cmt = commit else { return }
+                    if let cmtSha = cmt.sha {
+                        print("LAST COMMIT: '\(cmtSha)' by '\(cmt.committer?.name ?? cmt.author?.name ?? "")' on \(formatDate(format: "yyyy/MM/dd HH:mm:ss", date: cmt.commitDate)) (local time)")
+                        if let msg = cmt.message {
+                            print("MESSAGE: \"\(msg)\"")
+                        }
+                    }
+                }
+
+                print("🚩Old branch:", oldBranch)
+                printCommitSummary(oldCommit)
+                print("🚩New branch:", newBranch)
+                printCommitSummary(newCommit)
+                print("🚩Total deltas: \(diff.deltaCount). Checked files: \(files.count).")
+                print("- Added: \(allAdd).")
+                print("- Removed: \(allRm).")
+                print("- Modified: \(allMod).")
+                print("- Low meaning: \(allLow).")
                 if movedFilesCount > 0 {
-                    print("Moved files: \(movedFilesCount).")
+                    print("- Moved files: \(movedFilesCount).")
                 }
                 if uncheckedFiles.count > 0 {
-                    print("Unchecked files: \(uncheckedFiles.count).")
+                    print("- Unchecked files: \(uncheckedFiles.count).")
                 }
 
                 if var output = outFile {
@@ -326,7 +341,7 @@ do {
                     } else if !output.hasPrefix("/") {
                         output = FileManager.default.currentDirectoryPath + "/" + output
                     }
-                    print("Writting diff into \"\(output)\"...")
+                    print("🚩Writting diff into \"\(output)\"...")
                     try? "".write(toFile: output, atomically: true, encoding: .utf8)
                     if let fileWriter = FileHandle(forWritingAtPath: output) {
                         var totalSections = files.count
@@ -341,7 +356,8 @@ do {
                                                      totalAdd: allAdd, totalRemove: allRm, totalMod: allMod, totalLowM: allLow,
                                                      totalGitAdd: allGitAdd, totalGitRemove: allGitRm,
                                                      filesCount: totalSections, version: kVersion)
-                        fileWriter.writeTableHead(oldBranch: oldBranch, newBranch: newBranch)
+
+                        fileWriter.writeTableHead(oldBranch: oldBranch, newBranch: newBranch, oldCommit: oldCommit, newCommit: newCommit)
                         // Files & Lines diff
                         var index = 0
                         let sortedPath = files.keys.sorted()
@@ -351,9 +367,6 @@ do {
                             fileWriter.writeFileHeadRow(path: f.path, addN: a, rmN: r, modN: m, lowN: l, gAddN: f.gitAdd, gRmN: f.gitRm, index: index)
                             // Code diff lines
                             for line in f.lines {
-                                if isHideContext && line.isContext {
-                                    continue
-                                }
                                 let color: HtmlStatusClass
                                 let txtColor1: HtmlTextClass
                                 let txtColor2: HtmlTextClass

@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import ObjectiveGit
 
 enum HtmlStatusClass: String {
     case add = "add_status"
@@ -246,13 +247,17 @@ extension FileHandle {
             }
         }
 
+        function copyText(text) {
+            var board = document.getElementById("clipboard");
+            board.value = text;
+            board.select();
+            document.execCommand("copy");
+        }
+
         function copyFilePath(index) {
             var txt = document.getElementById("filepath" + index).innerText;
             txt = txt.substring(0, txt.length - 3);
-            var board = document.getElementById("clipboard");
-            board.value = txt;
-            board.select();
-            document.execCommand("copy");
+            copyText(txt);
         }
     </script>
 </head>
@@ -285,15 +290,40 @@ extension FileHandle {
         write(data)
     }
 
-    func writeTableHead(oldBranch: String, newBranch: String) {
-        let data = """
+    private func apppendCommitInfo(target: inout String, commit: GTCommit?) {
+        if let cmt = commit, let cmtSha = cmt.sha {
+            var info = formatHTML("Last commit '\(cmtSha)' by '\(cmt.committer?.name ?? cmt.author?.name ?? "")' on \(formatDate(format: "yyyy/MM/dd HH:mm:ss", date: cmt.commitDate))")
+            info = info.replacingOccurrences(of: cmtSha, with: "<a href=\"javascript:copyText('\(cmtSha)');\">\(cmtSha)</a>")
+            target += "\n            <p style=\"font-weight: lighter;\">"
+            target += "\n                " + info
+            if cmt.messageSummary.count > 0 {
+                target += "<br/>"
+                target += "\n                <i>" + formatHTML(cmt.messageSummary) + "</i>"
+            }
+            target += "\n            </p>"
+            target += "\n        </th>"
+        } else {
+            target += "</th>"
+        }
+    }
+
+    func writeTableHead(oldBranch: String, newBranch: String, oldCommit: GTCommit?, newCommit: GTCommit?) {
+        var data = """
     <table>
     <tr>
         <th style="width: 25px;"></th>
         <th style="width: 35px;">Line</th>
-        <th>\(oldBranch)</th>
+        <th>\(oldBranch)
+"""
+        apppendCommitInfo(target: &data, commit: oldCommit)
+        data += """
+
         <th style="width: 35px;">Line</th>
-        <th>\(newBranch)</th>
+        <th>\(newBranch)
+"""
+        apppendCommitInfo(target: &data, commit: newCommit)
+        data += """
+
     </tr>
 """
         write(data)

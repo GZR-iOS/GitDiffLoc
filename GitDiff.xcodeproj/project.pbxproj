@@ -181,7 +181,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0920;
-				LastUpgradeCheck = 1020;
+				LastUpgradeCheck = 1130;
 				ORGANIZATIONNAME = "GMO-Z.com RunSystem";
 				TargetAttributes = {
 					2BC6EDFF205273BB00332A0B = {
@@ -417,6 +417,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 523E5A4E8BD2BED0B29BC4F6 /* Pods-GitDiff.debug.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4VHMY5A5VD;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/../Frameworks' '@loader_path/Frameworks' \"${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx\"";
@@ -430,6 +431,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 542745389A0C102F87B6ECA9 /* Pods-GitDiff.release.xcconfig */;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_TEAM = 4VHMY5A5VD;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/../Frameworks' '@loader_path/Frameworks' \"${DT_TOOLCHAIN_DIR}/usr/lib/swift/macosx\"";
